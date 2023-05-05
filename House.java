@@ -1,67 +1,121 @@
-/**
-
-The House class represents a residential building with multiple floors and optional amenities like a dining room and an elevator.
-Inherits from the Building class.
-*/
 import java.util.ArrayList;
 
-/* This is a stub for the House class */
+/**
+ * This class extends from the Building parent class
+ * and construct a House
+ */
 public class House extends Building {
 
+  /** A list of residents' names */
   private ArrayList<String> residents;
+
+  /** A boolean to indicate whether or not the house has a dining room */
   private boolean hasDiningRoom;
-  private boolean hasElevator;
 
-/**
+  /** A boolean to indicate whether or not the house has an elevator */
+  private boolean hasElevator; 
 
-Constructs a new House object with the specified name, address, number of floors, dining room availability, and elevator availability.
-@param name the name of the house
-@param address the address of the house
-@param nFloors the number of floors in the house
-@param hasDiningRoom a boolean indicating whether or not the house has a dining room
-@param hasElevator a boolean indicating whether or not the house has an elevator
-*/
+  /**
+   * Defalut/overloaded constructor: Constructs a house with name only
+   * @param name the name of the house
+   */
+  public House(String name) {
+    this.name = name;
+    this.address = "<Address Unknown>";
+    this.residents = new ArrayList<String>();
+    this.hasDiningRoom = false;
+    this.hasElevator = false;
+  }
+
+  /**
+   * Overloaded constructor: Constructs a house with name and address
+   * @param name the name of the house
+   * @param address the address of the house
+   */
+  public House(String name, String address) {
+    super(name, address);
+    this.residents = new ArrayList<String>();
+    this.hasDiningRoom = false;
+    this.hasElevator = false;
+  }
+  
+  /**
+   * Full constructor: Constructs a house with name, address, nFloors, hasDiningRoom, and hasElevator
+   * @param name the name of the house
+   * @param address the address of the house
+   * @param nFloors the number of floors of the house
+   * @param hasDiningRoom whether or not the house has a dining room
+   * @param hasElevator whether or not the house has an elevator
+   */
   public House(String name, String address, int nFloors, boolean hasDiningRoom, boolean hasElevator) {
     super(name, address, nFloors);
     this.residents = new ArrayList<String>();
     this.hasDiningRoom = hasDiningRoom;
     this.hasElevator = hasElevator;
   }
-/**
 
-Returns a boolean indicating whether or not the house has a dining room.
-@return a boolean indicating whether or not the house has a dining room
-*/
+  /** Accessor for hasDiningRoom */
   public boolean hasDiningRoom() {
     return this.hasDiningRoom;
   }
-/**
 
-Returns the number of residents currently living in the house.
-@return the number of residents currently living in the house
-*/
+  /** Accessor for number of residents */
   public int nResidents() {
     return this.residents.size();
   }
-/**
 
-Adds a new resident with the specified name and occupation to the house.
-@param name the name of the new resident
-@param occupation the occupation of the new resident
-@throws RuntimeException if the resident is already living in the house
-*/
-  public void moveIn(String name, String occupation) {
+  /** Method to move a student into the house 
+   * @param the name of the student 
+   */
+  public void moveIn(String name) {
+    // check if this.residents contains name
     if (this.residents.contains(name)) {
-        throw new RuntimeException(name + " is already a resident of " + this.name);
+      // if so: throw and exception
+      throw new RuntimeException("Error! " + name + " is already a resident of " + this.name);
     }
+    // if we're good to go, add to roster
     this.residents.add(name);
-    System.out.println(name + ", who works as a " + occupation + " , has just moved into " + this.name + "! Go say hello :-)");
+    System.out.println(name + " has just moved into " + this.name + "! Go say hello :-)");
   }
-/**
 
-Returns a string representation of the House object, including its name, address, number of floors, number of residents, and dining room availability.
-@return a string representation of the House object
-*/
+  /** Method to move out a student from the house
+   * @param name the name of the student
+   * @return the name of the student
+   */
+  public String moveOut(String name) { 
+    // check if this.residents contains name
+    if (!this.residents.contains(name)) {
+      // if the person is not in the house : throw and exception
+      throw new RuntimeException("Error! Cannot remove " + name + " because " + name + " is not a resident of " + this.name);
+    }
+    // if we're good to go, delete from roster
+    this.residents.remove(name);
+    System.out.println(name + " has just removed from " + this.name + "! Go say goodbye :-(");
+    // return the name of the person who moved out
+    return name;
+  }
+
+  /** 
+   * Boolean method to check if the student is a resident of the house
+   * @param person The name of the student
+   * @return boolean if the student is a resident of the house
+  */
+  public boolean isResident(String person) {
+    // check if the student is already a resident
+    if (this.residents.contains(person)) {
+      System.out.println(person + " is a resident of " + this.name + ".");
+      return true;
+    }
+    else {
+      System.out.println(person + " is a not resident of " + this.name + ".");
+      return false;
+    }
+  }
+
+  /**
+   * Overriding method to connect every information of a house into a string
+   * @return the result description of the house
+   */
   public String toString() {
     String description = super.toString();
     description += " There are currently " + this.nResidents() + " people living in this house.";
@@ -71,78 +125,64 @@ Returns a string representation of the House object, including its name, address
     } else {
       description += "does not have";
     }
-    description += " an active dining room.";
+    description += " an active dining room ";
+    if (this.hasElevator) {
+      description += "and has";
+    } else {
+      description += "and does not have";
+    }
+    description += " an elevator.";
     return description;
   }
-/**
 
-Removes a resident with the specified name and age from the house.
-@param name the name of the resident to remove
-@param age the age of the resident to remove
-@throws RuntimeException if the resident is not living in the house
-*/
-  public void moveOut(String name, int age) {
-    if (!this.residents.contains(name)) {
-      throw new RuntimeException(name + " is not a resident of " + this.name);
-    }
-    this.residents.remove(name);
-    System.out.println(name +  ", age " + age + ", has just moved out " + this.name + ".");
-  }
-/**
-
-Checks if the given person is a resident of this House.
-@param person the name of the person to check
-@return true if the person is a resident of this House, false otherwise
-*/
-  public boolean isResident(String person) {
-    return residents.contains(person);
-  } 
-/**
-
-This method moves the customers to different floors.
- * @param floorNum The floor number to move to
- * @throws RuntimeException If the user is not inside the building or if the specified floor number is out of range
-*/
-  public void goToFloor(int floorNum) {
-    if (this.activeFloor == -1) {
-        throw new RuntimeException("You are not inside this Building. Must call enter() before navigating between floors.");
-    }
-    if (floorNum < 1 || floorNum > this.nFloors) {
-        throw new RuntimeException("Invalid floor number. Valid range for this Building is 1-" + this.nFloors +".");
-    }
-    if (!hasElevator) {
-      System.out.println("Sorry, there is no elevator in this house.");
-      return;
-  }
-    if (Math.abs(floorNum - nFloors) > 1) {
-      System.out.println("Sorry, this elevator can't move between adjacent floors.");
-      return;
-  }
-    System.out.println("You are now on floor #" + floorNum + " of " + this.name);
-    this.activeFloor = floorNum;
-}
-
+  /**
+   * Method to show all available options for this class
+   */
   public void showOptions() {
-    System.out.println("Available options at " + this.name + ":\n + enter() \n + exit() \n + goUp() \n + goDown()\n + goToFloor(n)\n + moveIn()\n + moveOut()");
-}
+    System.out.println("Available options at " + this.name + ":\n + enter() \n + exit() \n + goUp() \n + goDown()\n + goToFloor(n)\n + hasDiningRoom()\n + nResidents()\n + moveIn()\n + moveOut()\n + isResident()");
+  }
+
+  /** 
+   * Method to take the elevator if there is an elevator in the house.
+   * ps. I used super for this class but wrote a more complicated 
+   * overrided method for the other child classes.
+   */
+  public void goToFloor(int floorNum) {
+    if (this.hasElevator) {
+      super.goToFloor(floorNum);
+    }
+    else {
+      throw new RuntimeException("You cannot directly go to floor #" + floorNum + " because there is no elevator in this house." );
+    }
+  }
+  
 
   public static void main(String[] args) {
-    System.out.println("------------------------------------");
-    System.out.println("Test of House constructor/methods");
-    System.out.println("------------------------------------");
-    
-    House Chase = new House("Chase", "3 Green St Northampton, MA 01063", 4, false, true);
-    System.out.println(Chase);
-    Chase.showOptions();
+    House morrow = new House("Morrow", "The Quad", 4, false, true);
+    System.out.println(morrow);
+    morrow.showOptions();
+    morrow.moveIn("Jordan");
+    //morrow.moveIn("Jordan");
+    morrow.isResident("Jordan");
+    morrow.isResident("Cindy");
+    System.out.println(morrow);
+    //morrow.moveOut("Jordan");
+    //morrow.moveOut("Jordan");
+    //morrow.moveOut("Cindy");
+    morrow.moveIn("Cindy");
+    System.out.println(morrow);
 
-    System.out.println("-----------------------------------");
-    System.out.println("Demonstrating enter/exit/navigation/move in/move out");
-    System.out.println("-----------------------------------");
-    Chase.enter();
-    Chase.goToFloor(3);
-    Chase.goUp();
-    Chase.goDown();
-    Chase.moveIn("Vicky", "student");
-    Chase.moveOut("Vicky", 18);
+    House king = new House("King", "The Quad", 3, true, false);
+    System.out.println(king);
+
+
+    morrow.enter();
+    morrow.goToFloor(4);
+
+    System.out.println(morrow.toString());
+
+    House ziskind = new House("Ziskind");
+    System.out.println(ziskind.toString());
   }
+
 }
