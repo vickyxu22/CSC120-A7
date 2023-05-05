@@ -1,8 +1,3 @@
-/**
-* Represents a building with a name, address, and number of floors.
-* @author Vicky
-*/
-
 public class Building {
 
     protected String name;
@@ -94,15 +89,15 @@ public class Building {
         System.out.println("Available options at " + this.name + ":\n + enter() \n + exit() \n + goUp() \n + goDown()\n + goToFloor(n)");
     }
 
-        public String toString() {
-            return this.name + " is a " + this.nFloors + "-story building located at " + this.address + ".";
-        }
+    public String toString() {
+        return this.name + " is a " + this.nFloors + "-story building located at " + this.address + ".";
+    }
 
     public static void main(String[] args) {
         System.out.println("------------------------------------");
         System.out.println("Test of Building constructor/methods");
         System.out.println("------------------------------------");
-            
+        
         Building fordHall = new Building("Ford Hall", "100 Green Street Northampton, MA 01063", 4);
         System.out.println(fordHall);
         fordHall.showOptions();
@@ -113,7 +108,11 @@ public class Building {
         fordHall.enter();
         fordHall.goUp();
         fordHall.goDown();
+        fordHall.goToFloor(1);
         fordHall.exit();
+        System.out.println(fordHall.toString());
     }
 
 }
+
+
