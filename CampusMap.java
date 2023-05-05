@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 
+/* This class stores information about campus buildings */
 public class CampusMap {
 
+    /**
+     * Create an empty arraylist to store building information
+     */
     ArrayList<Building> buildings;
 
     /* Default constructor, initializes empty ArrayList */
@@ -31,6 +35,7 @@ public class CampusMap {
         return b;
     }
 
+    /* Print the arraylist into strings */
     public String toString() {
         String mapString = "DIRECTORY of BUILDINGS";
 
@@ -57,3 +62,4 @@ public class CampusMap {
     }
     
 }
+
